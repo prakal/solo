@@ -17,16 +17,15 @@
         ng-model="link.url"
         placeholder="Name" required
         ng-class="{'error': shortlyForm.$invalid && shortlyForm.$dirty}"/>
-
       <button type="submit" value="Shorten" ng-disabled='shortlyForm.$invalid'>
         add
       </button>
     </form>
     <div ng-if='shortlyForm.link.$error.required && shortlyForm.$dirty' class="message">
-      <h2>Url required</h2>
+      <h2>Name required</h2>
     </div>
     <div ng-show='shortlyForm.link.$error.url && shortlyForm.$dirty' class="message">
-      <h2>Not a valid url</h2>
+      <h2>Not a valid name</h2>
     </div>
   </div>
   </div>

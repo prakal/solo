@@ -14,12 +14,26 @@ angular.module('shortly.services', [])
   };
 
   var addLink = function (link) {
-    return $http({
-      method: 'POST',
-      url: '/api/links',
-      data: link
-    });
+    var success = function(x){
+      console.log('position',x);
+      link.loc = x;
+      return $http({
+        method: 'POST',
+        url: '/api/links',
+        data: link
+      });
+    };
+    navigator.geolocation.getCurrentPosition(success);
+    console.log('addLink in services',link);
   };
+
+  //         console.log('location',loc);
+  //         link.loc = loc;
+          // return $http({
+          //   method: 'POST',
+          //   url: '/api/links',
+          //   data: link
+          // });
 
   return {
     getAll: getAll,
