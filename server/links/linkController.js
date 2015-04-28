@@ -3,6 +3,7 @@ var Link    = require('./linkModel.js'),
     util    = require('../config/utils.js');
 
 
+
 module.exports = {
   findUrl: function (req, res, next, code) {
     var findLink = Q.nbind(Link.findOne, Link);
@@ -22,9 +23,9 @@ module.exports = {
 
   allLinks: function (req, res, next) {
     var findAll = Q.nbind(Link.find, Link);
-
     findAll({})
       .then(function (links) {
+        console.log('links',links);
         res.json(links);
       })
       .fail(function (error) {
@@ -34,41 +35,45 @@ module.exports = {
 
   newLink: function (req, res, next) {
     var url = req.body.url;
-    console.log(url,req.body);
+    console.log('name is',url,'body',req.body);
+    // res.json(req.body);
     // if (!util.isValidUrl(url)) {
     //   return next(new Error('Not a valid url'));
     // }
-    console.log('name',url);
     // var createLink = Q.nbind(Link.create, Link);
     // var findLink = Q.nbind(Link.findOne, Link);
 
-    // findLink({url: url})
-    //   .then(function (match) {
-    //     if (match) {
-    //       res.send(match);
-    //     } else {
-    //       return  util.getUrlTitle(url);
-    //     }
-    //   })
-    //   .then(function (title) {
-    //     if (title) {
-    //       var newLink = {
-    //         url: url,
-    //         visits: 0,
-    //         base_url: req.headers.origin,
-    //         title: title
-    //       };
-    //       return createLink(newLink);
-    //     }
-    //   })
-    //   .then(function (createdLink) {
-    //     if (createdLink) {
-    //       res.json(createdLink);
-    //     }
-    //   })
-    //   .fail(function (error) {
-    //     next(error);
-    //   });
+    // findLink({url: url});
+    var h = new Link({ url: req.body.url, lat:req.body.lat , 'lon': req.body.lon,'timestamp':req.body.timestamp});
+    // Link.collection.save(req.body);
+    res.json(h);
+      // .then(function (match) {
+      //   console.log('match',match);
+      //   if (match) {
+      //     res.send(match);
+      //   } else {
+      //     return  util.getUrlTitle(url);
+      //   }
+      // })
+      // .then(function (title) {
+      //   if (title) {
+      //     var newLink = {
+      //       url: url,
+      //       visits: 0,
+      //       base_url: req.headers.origin,
+      //       title: title
+      //     };
+      //     return createLink(newLink);
+      //   }
+      // })
+      // .then(function (createdLink) {
+      //   if (createdLink) {
+      //     res.json(createdLink);
+      //   }
+      // })
+      // .fail(function (error) {
+      //   next(error);
+      // });
   },
 
   navToLink: function (req, res, next) {

@@ -8,22 +8,25 @@ angular.module('shortly.services', [])
       method: 'GET',
       url: '/api/links'
     })
-    .then(function (resp) {
+    .success(function (resp) {
       return resp.data;
     });
   };
 
-  var addLink = function (link) {
-    var success = function(x){
+  var addLink = function (link, cb) {
+    var successful = function(x){
       console.log('position',x);
-      link.loc = x;
-      return $http({
-        method: 'POST',
-        url: '/api/links',
-        data: link
-      });
+      link.lat = x.coords.latitude;
+      link.lon = x.coords.longitude;
+      link.timestamp = x.timestamp;
+      return $http.post('/api/links', link).success(cb);
+      // return $http({
+      //   method: 'POST',
+      //   url: '/api/links',
+      //   data: link
+      // }).success(cb);
     };
-    navigator.geolocation.getCurrentPosition(success);
+    navigator.geolocation.getCurrentPosition(successful);
     console.log('addLink in services',link);
   };
 
